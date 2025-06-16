@@ -8,6 +8,11 @@ public class Ronin {
     private boolean visible;
     private Image image;
     private final int SPEED = 15;
+    private int health = 10;
+    private boolean midSwing = false;
+    private boolean parry = false;
+
+
 
     private int frameIndex = 0;
     private final Image[] runFrames = new Image[8];
@@ -16,7 +21,6 @@ public class Ronin {
     // Slash animation
     private final Image[] slashFrames = new Image[7];
     private int slashFrameIndex = 0;
-    private boolean midSwing = false;
 
     public Ronin(int x, int y) {
         this.x = x;
@@ -91,14 +95,12 @@ public class Ronin {
         if (key == KeyEvent.VK_RIGHT) {
             dx = SPEED;
         }
-        if (key == KeyEvent.VK_UP) {
-            dy = -SPEED;
-        }
-        if (key == KeyEvent.VK_DOWN) {
-            dy = SPEED;
-        }
         if (key == KeyEvent.VK_E && !midSwing) {
             midSwing = true;
+            slashFrameIndex = 0;
+        }
+        if (key == KeyEvent.VK_R && !midSwing) {
+            parry = true;
             slashFrameIndex = 0;
         }
     }
@@ -137,4 +139,25 @@ public class Ronin {
     public Rectangle getBounds() {
         return new Rectangle(x, y, image.getWidth(null), image.getHeight(null));
     }
+
+    public void setHealth() {
+        health -= 1;
+        if (health < 0) {
+            visible = false;
+        }
+    }
+    public int getHealth() {
+        return health;
+    }
+    public Boolean getSwing(){
+        return midSwing;
+    }
+    public void parryReward(){
+        health +=5;
+        System.out.println(health);
+    }
+    public boolean getParry() {
+        return parry;
+    }
+
 }
